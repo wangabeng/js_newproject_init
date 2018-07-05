@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+
+    <title>XXX-xxx</title>
+    <link href="./css/awesome.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link href="./css/common.css" rel="stylesheet">
+    <link href="./css/iSlider.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="./js/jquery1.10.2.js"></script>
+    <script type="text/javascript" src="./js/fontSize.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+    <script type="text/javascript" src="./js/iSlider.js"></script>
+    <script type="text/javascript" src="./js/iSlider.animate.js"></script>
+    <script type="text/javascript" src="./js/iSlider.dot.js"></script>
+    <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
+    <script type="text/javascript" src='./layer/layer.js'></script>
+    <style>
+
+    </style>
+</head>
+<body>
+    <ul class='select-checkbox'>
+        <li>
+            <label for="aaa"><i class="fa fa-square-o" aria-hidden="true"></i><span>A选项</span></label>
+            <input type="checkbox" name='thisname' id='aaa'>
+        </li>
+        <li>
+            <label for="bbb"><i class="fa fa-square-o" aria-hidden="true"></i><span>B选项</span></label>
+            <input type="checkbox" name='thisname' id='bbb' checked>
+        </li>
+        <li>
+            <label for="ccc"><i class="fa fa-square-o" aria-hidden="true"></i><span>C选项</span></label>
+            <input type="checkbox" name='thisname' id='ccc'>
+        </li>
+    </ul>
+</body>
+<script>
+$(function () {
+
+!function () {
+    // 1 定义构造函数
+    var Radio = function (ele) {
+        this.ele = ele;
+        this.name = this.ele.find('input').attr('name');
+        this.allInputs = this.ele.find("input[name=" + this.name + "]");
+        // this.init();
+        // this.bindChange();        
+    };
+
+    // 2 定义方法 
+    Radio.prototype = {
+        init: function () {
+            var that = this;
+            this.allInputs.each(function (index, element) {
+                var thisAttr = $(element).attr("checked");
+                // console.log(index, thaht.ele, thisAttr);
+                var par = $(element).parents('li');
+                if (thisAttr) {
+                    par.find('i').removeClass('fa-square-o').addClass('fa-check-square-o');
+                }
+            });
+        },
+        bindChange: function () {
+            var that = this;
+            this.allInputs.change(function () {
+                that.ele.find('i').addClass('fa-square-o').removeClass('fa-check-square-o');
+                $(this).parents('li').find('i').removeClass('fa-square-o').addClass('fa-check-square-o');
+            });
+        }
+    };
+    // 3 扩展jquery
+    $.fn.extend({
+        defineRadio: function () {
+            this.each(function(){
+                new Radio($(this));
+            });
+            return $(this);
+        } 
+    });
+}();
+
+$('.select-radio').defineRadio();
+
+
+});
+</script>
+</html>

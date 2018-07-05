@@ -1,0 +1,17 @@
+.broadcast-plugin-wrapper {
+    width: 100%;
+    height: .3rem;
+    overflow: hidden;
+    position: relative;
+}
+.broadcast-plugin-wrapper ul {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.broadcast-plugin-wrapper li {
+    width: 100%;
+}
+.broadcast-plugin-wrapper li a {
+    display: block;
+}

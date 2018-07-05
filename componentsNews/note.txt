@@ -1,0 +1,19 @@
+新闻滚动插件应用示例
+
+html:
+<div class="broadcast-plugin-wrapper">
+    <ul>
+        <li>
+            <a href="">aaaa</a>
+        </li>
+        <li>
+            <a href="">bbb</a>
+        </li>
+        <li>
+            <a href="">ccc</a>
+        </li>
+    </ul>
+</div>
+
+js：
+$('.broadcast-plugin-wrapper').newsScroll();

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+
+    <title>XXX-xxx</title>
+    <link href="./css/awesome.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link href="./css/common.css" rel="stylesheet">
+    <link href="./css/iSlider.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="./js/jquery1.10.2.js"></script>
+    <script type="text/javascript" src="./js/fontSize.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+    <script type="text/javascript" src="./js/iSlider.js"></script>
+    <script type="text/javascript" src="./js/iSlider.animate.js"></script>
+    <script type="text/javascript" src="./js/iSlider.dot.js"></script>
+    <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
+    <script type="text/javascript" src='./layer/layer.js'></script>
+    <script type="text/javascript" src='./js/distpicker.js'></script>
+
+    <style>
+        
+    </style>
+</head>
+<body>
+<!--     <div data-toggle="distpicker" id='target'>
+      <select data-province="---- 选择省 ----"></select>
+      <select data-city="---- 选择市 ----"></select>
+      <select data-district="---- 选择区 ----"></select>
+    </div> -->
+
+    <div data-toggle="distpicker" id='target'>
+      <select></select>
+      <select></select>
+      <select></select>
+    </div>
+</body>
+<script>
+
+    $('#target').distpicker({
+      province: '浙江省',
+      city: '杭州市',
+      district: '萧山区'
+    });
+    $('#target').distpicker('destroy');
+    $("#target").distpicker({
+      province: '---- 所在省 ----',
+      city: '---- 所在市 ----',
+      district: '---- 所在区 ----'
+    });
+$('#target').distpicker('destroy');
+    $('#target').distpicker({
+      province: '浙江省',
+      city: '杭州市',
+      district: '萧山区'
+    });
+    
+</script>
+</html>

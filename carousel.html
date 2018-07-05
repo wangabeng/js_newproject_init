@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+
+    <title>XXX-xxx</title>
+    <link href="./css/awesome.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link href="./css/common.css" rel="stylesheet">
+    <link href="./css/iSlider.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="./js/jquery1.10.2.js"></script>
+    <script type="text/javascript" src="./js/fontSize.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+    <script type="text/javascript" src="./js/iSlider.js"></script>
+    <script type="text/javascript" src="./js/iSlider.animate.js"></script>
+    <script type="text/javascript" src="./js/iSlider.dot.js"></script>
+    <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
+    <script type="text/javascript" src='./layer/layer.js'></script>
+    <style>
+        .carousel-wrapper {
+            width: 6.4rem;
+            overflow: hidden;
+            position: relative;
+        }
+        .carousel-wrapper ul.carousel-content-wrapper {
+            width: 26.4rem;
+            overflow: hidden;
+            left: 0;
+            top: 0;
+            position: relative;
+        }
+        .carousel-wrapper ul.carousel-content-wrapper li {
+            float: left;
+            width: 6.4rem;
+        }
+        .carousel-wrapper ul.carousel-content-wrapper li a {
+            display: block;
+            width: 100%;
+        }
+        .carousel-wrapper ul.carousel-content-wrapper li img {
+            width: 100%;
+        }
+        /*button*/
+/*        .carousel-button-wrapper {
+            border: 1px solid red;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            position: absolute;
+            left: 50%;
+            bottom: 10%;
+            margin-left: -50%;
+            justify-content: center;
+        }
+        .carousel-button-wrapper li {
+            margin: 0 .05rem;
+        }
+        .carousel-button-wrapper li i {
+            display: flex;
+            width: .15rem;
+            height: .15rem;
+            border-radius: 50%;
+            border: 1px solid #fff;
+            box-sizing: border-box;
+        }*/
+    </style>
+</head>
+<body>
+<div class="carousel-wrapper">
+    <ul class='carousel-content-wrapper'>
+        <li><a href="javascript:;"><img src="./img/carousel1.jpg" alt="轮播图1"></a></li>
+        <li><a href="javascript:;"><img src="./img/carousel2.jpg" alt="轮播图2"></a></li>
+        <li><a href="javascript:;"><img src="./img/carousel3.jpg" alt="轮播图3"></a></li>
+    </ul>
+<!--     <ul class='carousel-button-wrapper'>
+        <li><i class=''></i></li>
+        <li><i class=''></i></li>
+        <li><i class=''></i></li>
+        <li><i class=''></i></li>
+    </ul> -->
+</div>
+</body>
+<script>
+    // 自动播放
+    var outerEle = $('.carousel-wrapper')[0];
+    var totalWidth = outerEle.currentStyle?outerEle.currentStyle['width']:getComputedStyle(outerEle,"FOR FF4.0")['width'];
+    totalWidth = parseFloat(totalWidth);
+    // 复制一份ul内容
+    var ulContent = $('.carousel-content-wrapper').html();
+    $('.carousel-content-wrapper').append(ulContent);
+    var allLength = $('.carousel-content-wrapper li').length;
+
+    // 设置ul的宽度
+    $('.carousel-content-wrapper').css({'width': allLength * totalWidth});
+
+    var curLeft = 0;
+    var curIndex = 0;
+    
+    // 定时器 开始运动
+    clearInterval(fnTimer);
+    var timer = setInterval(fnTimer, 2000);
+
+    function fnTimer () {
+        if (curIndex == (allLength - 1)) {
+            $('.carousel-content-wrapper').css({'left': -(allLength / 2 - 1) * totalWidth});
+            curIndex = allLength / 2 - 1;
+        }
+        $('.carousel-content-wrapper').animate({'left': curLeft - totalWidth * (curIndex + 1)}, 500, function () {
+            curIndex++;
+        });
+    }
+
+    // 手指滑动
+    // 手指滑动开始 清除定时器  手指滑动结束 定时器重新开始
+    var startX,
+        startY,
+        originLeft,
+        originTop,
+        moveEndX,
+        moveEndY,
+        diffX,
+        diffY,
+        startTime,
+        direction,
+        moveEle = $('.carousel-content-wrapper');
+
+    // 监听touchstart事件
+    $('.carousel-content-wrapper').on('touchstart', function (event) {
+        startTime = new Date();
+        startX = event.originalEvent.changedTouches[0].pageX;
+        startY = event.originalEvent.changedTouches[0].pageY;
+        
+        originLeft = parseInt(moveEle.css('left'));
+        originTop = parseInt(moveEle.css('top'));
+
+        // 首先清除定时器
+        
+    });
+
+    // 监听touchmove事件 .carousel-content-wrapper
+    $('.carousel-content-wrapper').on('touchmove', function (event) {
+        moveEndX = event.originalEvent.changedTouches[0].pageX;
+        moveEndY = event.originalEvent.changedTouches[0].pageY;
+        // 算出移动的距离
+        diffX = moveEndX - startX;
+        diffY = moveEndY - startY;
+    });
+
+    // 监听move结束事件
+    $('body').on('touchend', function () {
+        console.log('diffX', diffX);
+        // -1代表向左 1代表向右
+        direction = diffX > 0 ? 1: -1;
+
+        if (Math.abs(diffX) > 20 && Math.abs(diffX) < totalWidth) {
+            moveEle.animate({'left': curLeft + totalWidth * direction}, '200', function () {
+                // 移动后改变当前的curIndex 及cur
+                curLeft = curLeft + totalWidth * direction;
+                curIndex = curIndex - direction;
+                console.log('curIndex:', curIndex, 'direction:', direction);
+            });
+        }
+
+        // 如果当前curIndex == 0 而且是向左滑动
+        if (curIndex === 0 && direction === 1) {
+            console.log('到最左边了');
+            moveEle.animate({'left': 0}, '200', function () {
+                // 移动后改变当前的curIndex 及cur
+                curLeft = 0;
+                curIndex = 0;
+            });
+        } else if (curIndex === allLength - 1 && direction === -1) {
+            console.log('到最右边了');
+            moveEle.animate({'left': -(allLength - 1) * totalWidth}, '200', function () {
+                // 移动后改变当前的curIndex 及cur
+                curLeft = -(allLength - 1) * totalWidth;
+                curIndex = allLength - 1;
+            });
+        }
+
+        //解绑事件
+        this.removeEventListener('touchmove', this, false);
+        this.removeEventListener('touchend', this, false);
+
+        // 让定时器继续工作
+    });
+
+</script>
+</html>

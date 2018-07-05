@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+
+    <title>XXX-xxx</title>
+    <link href="./css/awesome.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link href="./css/common.css" rel="stylesheet">
+    <link href="./css/iSlider.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="./js/jquery1.10.2.js"></script>
+    <script type="text/javascript" src="./js/fontSize.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+    <script type="text/javascript" src="./js/iSlider.js"></script>
+    <script type="text/javascript" src="./js/iSlider.animate.js"></script>
+    <script type="text/javascript" src="./js/iSlider.dot.js"></script>
+    <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
+    <script type="text/javascript" src='./layer/layer.js'></script>
+    <style>
+
+    </style>
+</head>
+<body>
+  <div class="options-wrapper">
+      <span class='option-selected'>请选择</span>
+      <i class="fa fa-caret-down" aria-hidden="true"></i>
+      <ul>
+          <li>选项A</li>
+          <li>选项B</li>
+          <li>选项C</li>
+      </ul>
+  </div>
+</body>
+<script>
+        // 选择列表
+        // !function () {
+        //     $('.options-wrapper').on('click', function (event) {
+        //         event.stopPropagation();
+        //         $('.options-wrapper ul').toggle();
+        //     });
+
+        //     $('.options-wrapper ul').find('li').on('click', function () {
+        //         var value = $(this).html();
+        //         $('.options-wrapper .option-selected').html(value);
+        //     });
+
+        //     $('body').on('click', function () {
+        //         $('.options-wrapper ul').hide();
+        //     });
+        // }();
+
+!function ($) {
+  // 1 定义构造函数
+  var DefineOptions = function (el) {
+    this.el = el;
+    this.optionsWrapper = el.find('ul');
+    this.toggleOptions();
+    this.bodyEvent();
+    this.selectEvent();
+  }; 
+  // 2 定义方法
+  DefineOptions.prototype = {
+    // 切换选项显示隐藏
+    toggleOptions: function () {
+      var _this = this;
+      this.el.on('click', function (event) {
+        event.stopPropagation();
+        _this.optionsWrapper.toggle();
+      });
+    },
+    // 选择列表
+    selectEvent: function () {
+      var _this = this;
+      this.optionsWrapper.find('li').on('click', function () {
+        var value = $(this).html();
+        _this.el.find('.option-selected').html(value);
+      });
+    },
+    // 点击body隐藏选项列表
+    bodyEvent: function () {
+      var _this = this;
+      $('body').on('click', function () {
+        _this.optionsWrapper.hide();
+      });
+    }
+  };
+  // 3 扩展jquery
+    $.fn.extend({
+        defineOptions: function () {
+            this.each(function(){
+                new DefineOptions($(this));
+            });
+            return $(this);
+        } 
+    });
+
+}(jQuery);
+
+$('.options-wrapper').defineOptions();
+
+</script>
+</html>

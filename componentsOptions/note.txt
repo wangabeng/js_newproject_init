@@ -1,0 +1,13 @@
+html:
+<div class="options-wrapper">
+  <span class='option-selected'>请选择</span>
+  <i class="fa fa-caret-down" aria-hidden="true"></i>
+  <ul>
+      <li>选项A</li>
+      <li>选项B</li>
+      <li>选项C</li>
+  </ul>
+</div>
+
+JS:
+$('.options-wrapper').defineOptions();

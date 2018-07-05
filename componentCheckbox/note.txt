@@ -1,0 +1,18 @@
+html:
+    <ul class='select-checkbox'>
+        <li>
+            <label for="aaa"><i class="fa fa-square-o" aria-hidden="true"></i><span>A选项</span></label>
+            <input type="checkbox" name='thisname' id='aaa' checked style='display: none'>
+        </li>
+        <li>
+            <label for="bbb"><i class="fa fa-square-o" aria-hidden="true"></i><span>B选项</span></label>
+            <input type="checkbox" name='thisname' id='bbb' checked style='display: none'>
+        </li>
+        <li>
+            <label for="ccc"><i class="fa fa-square-o" aria-hidden="true"></i><span>C选项</span></label>
+            <input type="checkbox" name='thisname' id='ccc' checked style='display: none'>
+        </li>
+    </ul>
+
+JS:
+$('.select-checkbox').defineCheckbox();

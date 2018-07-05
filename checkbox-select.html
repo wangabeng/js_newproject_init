@@ -31,15 +31,15 @@
     <ul class='select-checkbox'>
         <li>
             <label for="aaa"><i class="fa fa-square-o" aria-hidden="true"></i><span>A选项</span></label>
-            <input type="checkbox" name='thisname' id='aaa'>
+            <input type="checkbox" name='thisname' id='aaa' checked style='display: none'>
         </li>
         <li>
             <label for="bbb"><i class="fa fa-square-o" aria-hidden="true"></i><span>B选项</span></label>
-            <input type="checkbox" name='thisname' id='bbb' checked>
+            <input type="checkbox" name='thisname' id='bbb' checked style='display: none'>
         </li>
         <li>
             <label for="ccc"><i class="fa fa-square-o" aria-hidden="true"></i><span>C选项</span></label>
-            <input type="checkbox" name='thisname' id='ccc'>
+            <input type="checkbox" name='thisname' id='ccc' checked style='display: none'>
         </li>
     </ul>
 </body>
@@ -48,18 +48,19 @@ $(function () {
 
 !function () {
     // 1 定义构造函数
-    var Radio = function (ele) {
+    var Checkbox = function (ele) {
         this.ele = ele;
         this.name = this.ele.find('input').attr('name');
         this.allInputs = this.ele.find("input[name=" + this.name + "]");
-        // this.init();
-        // this.bindChange();        
+        this.init();
+        this.bindChange();        
     };
 
     // 2 定义方法 
-    Radio.prototype = {
+    Checkbox.prototype = {
         init: function () {
             var that = this;
+            console.log(this);
             this.allInputs.each(function (index, element) {
                 var thisAttr = $(element).attr("checked");
                 // console.log(index, thaht.ele, thisAttr);
@@ -72,23 +73,22 @@ $(function () {
         bindChange: function () {
             var that = this;
             this.allInputs.change(function () {
-                that.ele.find('i').addClass('fa-square-o').removeClass('fa-check-square-o');
-                $(this).parents('li').find('i').removeClass('fa-square-o').addClass('fa-check-square-o');
+                $(this).parents('li').find('i').toggleClass('fa-square-o fa-check-square-o');
             });
         }
     };
     // 3 扩展jquery
     $.fn.extend({
-        defineRadio: function () {
+        defineCheckbox: function () {
             this.each(function(){
-                new Radio($(this));
+                new Checkbox($(this));
             });
             return $(this);
         } 
     });
 }();
 
-$('.select-radio').defineRadio();
+$('.select-checkbox').defineCheckbox();
 
 
 });

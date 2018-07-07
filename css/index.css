@@ -1,6 +1,8 @@
-﻿.wrapper {
-    display: grid;
-    grid-template-columns: 100px 100px 100px;
-    grid-template-rows: 100px 100px 100px;
-    background-color: red;
-}
+﻿        .test {
+            animation: myfirst 5s;
+        }
+        @keyframes myfirst
+        {
+            from {background: red;}
+            to {background: yellow;}
+        }

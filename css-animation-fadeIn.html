@@ -24,20 +24,29 @@
     <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
     <script type="text/javascript" src='./layer/layer.js'></script>
     <style>
-        .test {
-            animation: myfirst 5s;
+        .box {
+            width:100px;
+            height:100px;
+            background:red;
+            position:relative;
+            animation: fadeIn .6s ease-in;
         }
-        @keyframes myfirst
-        {
-            from {background: red;}
-            to {background: yellow;}
+
+        @keyframes  fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
-    <div class='test'>
-        12345
-    </div>
+    <div class="box">
+     </div>
 </body>
 <script>
     $(function () {

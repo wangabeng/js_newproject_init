@@ -1,0 +1,211 @@
+FileReader对象的readAsDataURL方法可以将读取到的文件编码成Data URL。Data URL是一项特殊的技术，可以将资料(例如图片)内嵌在网页之中，不用放到外部文件。使用Data URL的好处是，您不需要额外再发出一个HTTP 请求到服务器端取得额外的资料；而缺点便是，网页的大小可能会变大。它适合应用在内嵌小图片，不建议将大图像文件编码成Data URL来使用。您的图像文件不能够超过浏览器限定的大小，否则无法读取图像文件。
+
+参考以下使用readAsDataURL读取图像文件范例：
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml" >
+<head>
+    <title> </title>
+    <script type = "text/javascript" >
+        function ProcessFile( e ) { 
+            var file = document.getElementById('file').files[0];
+            if (file) {
+                
+                var reader = new FileReader();
+                reader.onload = function ( event ) { 
+                    var txt = event.target.result;
+                    document.getElementById("result").innerHTML = txt;
+                    };
+              }
+            reader.readAsDataURL( file );
+            }
+        function contentLoaded () {
+            document.getElementById('file').addEventListener( 'change' ,
+ProcessFile , false );
+        }
+        window.addEventListener( "DOMContentLoaded" , contentLoaded , false );
+    </script>
+</head>
+<body>
+   请选取一个图像文件: <input type = "file" id = "file" name = "file" />
+   <div id = "result"> </div>
+</body>
+</html>
+ 
+
+readAsDataURL方法会使用base-64进行编码，编码的资料由data字串开始，后面跟随的是MIME type，然后再加上base64字串，逗号之后就是编码过的图像文件的内容。
+
+使用Img显示图像文件
+
+ 
+
+若想要将读取出来的图像文件，直接显示在网页上，您可以透过JavaScript建立一个<img>标签，再设定src属性为Data URL，再将<img>标签加入DOM之中，例如以下范例所示：
+
+ 
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml" >
+<head>
+<title> </title>
+<script type = "text/javascript" >
+function ProcessFile( e ) { 
+var file = document.getElementById('file').files[0];
+if ( file ) {
+ 
+var reader = new FileReader();
+reader.onload = function ( event ) { 
+var txt = event.target.result;
+var img = document.createElement("img");
+img.src = txt;
+document.getElementById("result").appendChild( img );
+};
+}
+reader.readAsDataURL( file );
+}
+function contentLoaded() {
+document.getElementById('file').addEventListener( 'change' ,
+ProcessFile , false );
+}
+window.addEventListener( "DOMContentLoaded" , contentLoaded , false );
+</script>
+</head>
+<body>
+请选取一个图像文件: <input type = "file" id = "file" name = "file" />
+<div id = "result"> </div>
+</body>
+</html>
+读取部分文件
+
+有时想要读取的文件太大，想要分段进行读取；或者只想要读取文件部分的内容，这时您可以将文件切割，根据浏览器的不同，可以使用以下方法：
+
+webkitSlice：适用于支持Webkit引擎的浏览器，如Chrome。
+mozSlice：适用于Firefox。
+
+这两个方法要传入开始的位元组索引，以及结尾的位元组索引，索引以0开始。以下程式范例以FileReader对象的readAsBinaryString方法来读取文件，只读取文件的第三个位元组读取到第六个位元组：
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+<!DOCTYPE html>
+<html xmlns ="http://www.w3.org/1999/xhtml" >
+<head>
+<title> </title>
+<script type = "text/javascript" >
+function ProcessFile( e ) {
+var file = document.getElementById( 'file' ).files[0];
+if ( file ) {
+var reader = new FileReader ();
+reader.onload = function ( event ) {
+var txt = event.target.result;
+document.getElementById( "result" ).innerHTML = txt;
+};
+}
+if ( file.webkitSlice ) {
+var blob = file.webkitSlice( 2, 4 );
+} else if ( file.mozSlice ) {
+var blob = file.mozSlice( 2, 4 );
+}
+reader.readAsBinaryString( blob );
+}
+function contentLoaded() {
+document.getElementById( 'file' ).addEventListener( 'change' ,
+ProcessFile , false );
+}
+window.addEventListener( "DOMContentLoaded", contentLoaded , false );
+</script>
+</head>
+<body>
+<input type = "file" id = "file" name = "file" />
+<div id = "result" > </div>
+</body>
+</html>

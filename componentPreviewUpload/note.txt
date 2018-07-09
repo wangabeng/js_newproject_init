@@ -1,0 +1,20 @@
+html:
+    <div class="upload-previw-wrapper">
+        <form>
+            <!-- 上传按钮 -->
+            <div class='upload-wrapper' style='width: 100px'>
+                <label for="upload-image">请上传</label>
+                <input type="file" id='upload-image' class='upload-image' style='display: none'>
+            </div>
+            <!-- 预览区 -->
+            <ul class="preview-warpper">
+            </ul>
+            <!-- 提交按钮 -->
+            <div class="submit-wrapper">
+                <input type="submit" onclick="test(this)" value="提交" />
+            </div>
+        </form>
+    </div>
+
+JS:
+$('.upload-previw-wrapper').previewPic();  

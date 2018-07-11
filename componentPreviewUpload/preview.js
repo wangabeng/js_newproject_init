@@ -1,7 +1,11 @@
+/*
+    ** 图片或视频上传本地预览
+ */
 !function ($) {
     // 1 定义构造函数
-    var Preview = function (el) {
+    var Preview = function (el, filetype) {
         this.el = el;
+        this.filetype = filetype;
         this.inputEle = el.find('.upload-image');
         this.previewContainer = el.find('.preview-warpper');
         this.bindUpload();
@@ -27,16 +31,25 @@
                             // 获取文档类型
                             var fileType = e.target.result.split(',')[0].split(':')[1].split(';')[0];
 
-                            // console.log(fileType);
+                            console.log(fileType);
                             // 当图片格式是jpg或png的时候 才执行
-                            if (fileType === 'image/png' || fileType === 'image/jpeg') {
+                            if (that.filetype == 'img') {
                                 // 把图片追加到dom中
+                                var liEle = document.createElement("li");
                                 var newImageWrapper = document.createElement("img");
                                 $(newImageWrapper).attr('src', e.target.result);
-                                that.previewContainer.append(newImageWrapper);                                
+                                liEle.append(newImageWrapper);
+                                that.previewContainer.append(liEle);                                
+                            } else if (that.filetype == 'video') {
+                                // 把video追加到dom中
+                                var liEle = document.createElement("li");
+                                var newImageWrapper = document.createElement("video");
+                                $(newImageWrapper).attr({'src': e.target.result, controls: 'controls', poster: './img/video.jpg'});
+                                liEle.append(newImageWrapper);
+                                that.previewContainer.append(liEle);
                             } else {
                                 // alert('请上传jpg或png格式的图片');
-                                layer.tips('请上传jpg或png格式的图片', '.upload-wrapper');
+                                layer.tips('请上传符合要求的文件', '.upload-wrapper');
                             }
 
                         }
@@ -47,9 +60,9 @@
     };
     // 3 扩展jquery
     $.fn.extend({
-        previewPic: function () {
+        previewPic: function (filetype) {
             this.each(function(){
-                new Preview($(this));
+                new Preview($(this), filetype);
             });
             return $(this);
         } 

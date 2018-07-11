@@ -70,7 +70,7 @@
                         var fileReader = new FileReader();
                         fileReader.readAsDataURL(allFiles[i]);
                         fileReader.onload = function (e) {
-                            // 获取base64的字符串
+                            // 获取base64的字符串()
                             var baseContent = e.target.result.split(',')[1];
                             // 获取文档类型
                             var fileType = e.target.result.split(',')[0].split(':')[1].split(';')[0];

@@ -1,7 +1,10 @@
 预加载插件应用示例
 
 html:
-<img class='preload' data-src="https://www.planwallpaper.com/static/images/violet-vector-leaves-circles-backgrounds-for-powerpoint_PdfkI4q.jpg" src='./img/test.png' alt="">
+    <div class="preload">
 
+        <img src='http://peony.oioos.com/attached/images/2018/06/29/47678993.jpg' alt="">
+        <img src='https://www.planwallpaper.com/static/images/violet-vector-leaves-circles-backgrounds-for-powerpoint_PdfkI4q.jpg' alt="">
+    </div>
 js：
 $('.preload').picPreloader();

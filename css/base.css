@@ -1,5 +1,5 @@
 ﻿/* wang css-reset 
-   v1.0.1 | 20180702
+   v1.0.3 | 20180710
    License: none
 */
 
@@ -66,6 +66,10 @@ img{
 }
 textarea {
     resize: none;
+    font-size: .22rem;
+    font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif, 'Droid Sans Fallback', '微软雅黑', 'helvetica neue',tahoma,'hiragino sans gb',stheiti,'wenquanyi micro hei',\5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, .6); /* transparent解决手机点击出现蓝色底 */
+    outline: none; /* 20180710 */
     -webkit-appearance: none;
        -moz-appearance: none;
             appearance: none;
@@ -118,6 +122,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
      /* Internet Explorer 10+ */ 
     color: #666;
 }
+/* 解决谷歌浏览器输入框黄色底问题 */
 input:-webkit-autofill,
     input:-webkit-autofill:hover,
     input:-webkit-autofill:focus,

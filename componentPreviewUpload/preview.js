@@ -31,7 +31,7 @@
                             // 获取文档类型
                             var fileType = e.target.result.split(',')[0].split(':')[1].split(';')[0];
 
-                            console.log(fileType);
+                            // console.log(fileType);
                             // 当图片格式是jpg或png的时候 才执行
                             if (that.filetype == 'img') {
                                 // 把图片追加到dom中
@@ -48,8 +48,7 @@
                                 liEle.append(newImageWrapper);
                                 that.previewContainer.append(liEle);
                             } else {
-                                // alert('请上传jpg或png格式的图片');
-                                layer.tips('请上传符合要求的文件', '.upload-wrapper');
+                                console.log('引用需要带 img 或 video参数');
                             }
 
                         }

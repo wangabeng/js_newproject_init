@@ -1,10 +1,15 @@
 预加载插件应用示例
 
 html:
-    <div class="preload">
+     <div class="aaa">
 
         <img src='http://peony.oioos.com/attached/images/2018/06/29/47678993.jpg' alt="">
         <img src='https://www.planwallpaper.com/static/images/violet-vector-leaves-circles-backgrounds-for-powerpoint_PdfkI4q.jpg' alt="">
     </div>
+
+    <br>分割线
+
+    <img class="preload" src='https://www.planwallpaper.com/static/images/601414.jpg' alt="">
 js：
-$('.preload').picPreloader();
+$('.aaa').picPreloader("./componentsPreloader/loading-1.png"); // 可以携带不同的参数 预加载不同的图片
+$('.preload').picPreloader("./componentsPreloader/loading-1.png");

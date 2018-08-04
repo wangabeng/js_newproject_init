@@ -28,7 +28,7 @@
     </style>
 </head>
 <body>
-    <div>
+<!--     <div>
         <img class='preload' data-src="https://www.planwallpaper.com/static/images/violet-vector-leaves-circles-backgrounds-for-powerpoint_PdfkI4q.jpg" src='./img/test.png' alt="">
 
         <img class='preload' data-src="https://cdn.pixabay.com/photo/2018/01/04/19/43/desktop-background-3061483_960_720.jpg" src='./img/test.png' alt="">
@@ -38,18 +38,19 @@
         <img class='preload' data-src=https://images.unsplash.com/photo-1489551917489-bddbe72c6734?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=db2df8482936f5e4d0a7793ea504aa6d&auto=format&fit=crop&w=2134&q=80" src='./img/test.png' alt="">
 
         <img class='preload' data-src=https://images.unsplash.com/photo-1489551917489-bddbe72c6734?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=db2df8482936f5e4d0a7793ea504aa6d&auto=format&fit=crop&w=2134&q=80" src='./img/test.png' alt="">
+    </div> -->
+     <div class="preload aaa">
+
+        <img src='http://peony.oioos.com/attached/images/2018/06/29/47678993.jpg' alt="">
+        <img src='https://www.planwallpaper.com/static/images/violet-vector-leaves-circles-backgrounds-for-powerpoint_PdfkI4q.jpg' alt="">
     </div>
+
+    <br>分割线
+
+    <img class="preload bbb" src='https://www.planwallpaper.com/static/images/601414.jpg' alt="">
 </body>
 <script>
-    // $('.preload').each(function (index, ele) {
-    //     console.log(index, ele);
-    //     var imageObj = new Image();
-    //     imageObj.src = ele.getAttribute('data-src');
-    //     imageObj.onload = function () {
-    //         console.log('OK', this.src);
-    //         ele.setAttribute('src', this.src);
-    //     };
-    // });
+
 
 /*
     图片预加载插件
@@ -59,35 +60,56 @@
 
 !function ($) {
     // 1 定义构造函数
-    var PicPreloader = function (el) {
-        this.el = el;
+    var PicPreloader = function (el, imgUrl) {
+        // 如果自身是IMG元素 就不再找容器内的IMG元素
+        if (el[0].tagName == 'IMG') {
+            this.el = el;
+        } else {
+            this.el = el.find('img');
+        }
+        this.imgUrl = imgUrl;
+
+        // console.log(this.el);
+        this.realSrc = '';
+        this.initPic();
         this.reloadPic();
     };
     // 2 定义原型方法
     PicPreloader.prototype = {
+        initPic: function () {
+            var _this = this;
+            this.el.each(function (index, element) {
+                var realSrc = $(element).attr("src");
+                $(element).attr("src", _this.imgUrl);
+                $(element).attr("data-src", realSrc);
+            });
+        },
         // 预加载后替换图片
         reloadPic: function () {
-            console.log(this.el);
+            // console.log(this.el);
             var _this = this;
-            this.imageObj = new Image();
-            this.imageObj.src = this.el.attr('data-src');
-            this.imageObj.onload = function () {
-                _this.el.attr('src', _this.imageObj.src);
-            };
+            this.el.each(function (index, element) {
+                var newImageObj = new Image();
+                newImageObj.src = $(element).attr('data-src');
+                newImageObj.onload = function () {
+                    $(element).attr('src', newImageObj.src);
+                };
+            });
         }
     };
     // 3 拓展jquery函数
     $.fn.extend({
-        picPreloader: function () {
+        picPreloader: function (imgUrl) {
             this.each(function(){
-                new PicPreloader($(this));
+                new PicPreloader($(this), imgUrl);
             });
             return $(this);
-        } 
+        }
     });
 }(jQuery);
 
-$('.preload').picPreloader();
+$('.aaa').picPreloader("./componentsPreloader/loading-1.png"); // 可以携带不同的参数 预加载不同的图片
+$('.preload').picPreloader("./componentsPreloader/loading-1.png");
 
 </script>
 </html>

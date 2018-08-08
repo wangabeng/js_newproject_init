@@ -1,0 +1,65 @@
+.vue-search-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+    align-items: center;
+    position: relative;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    background: gray;
+    font-size: .23rem;
+    background-color: #ffffff;
+    padding-left: .1rem;
+    box-sizing: border-box;
+    border-radius: .1rem;
+}
+.vue-search-wrapper label i {
+    color: #b3b3b3;
+    font-size: .28rem;
+}
+.vue-search-wrapper input {
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    background-color: transparent;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    height: .5rem;
+    font-size: .23rem;
+    padding: 0 .5rem 0 .1rem;
+}
+.vue-search-wrapper .reset-btn {
+    position: absolute;
+    top: .1rem;
+    right: 1rem;
+    color: #b3b3b3;
+    font-size: .3rem;
+}
+.vue-search-wrapper .search-btn {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    width: .9rem;
+    height: .5rem;
+    background-color: #7ed5fa;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    color: #fff;
+    font-size: .24rem;
+    border-bottom-right-radius: .1rem;
+    border-top-right-radius: .1rem;
+}

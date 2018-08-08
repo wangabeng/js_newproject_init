@@ -1,8 +1,1 @@
-﻿        .test {
-            animation: myfirst 5s;
-        }
-        @keyframes myfirst
-        {
-            from {background: red;}
-            to {background: yellow;}
-        }
+﻿

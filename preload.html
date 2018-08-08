@@ -24,7 +24,9 @@
     <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
     <script type="text/javascript" src='./layer/layer.js'></script>
     <style>
-
+        .preload img {
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -108,8 +110,8 @@
     });
 }(jQuery);
 
-$('.aaa').picPreloader("./componentsPreloader/loading-1.png"); // 可以携带不同的参数 预加载不同的图片
-$('.preload').picPreloader("./componentsPreloader/loading-1.png");
+$('.aaa').picPreloader("./componentsPreloader/loading-1.png");
+$('.bbb').picPreloader("./componentsPreloader/loading-animation.png");
 
 </script>
 </html>

@@ -18,32 +18,57 @@
     <script type="text/javascript" src="./js/jquery1.10.2.js"></script>
     <script type="text/javascript" src="./js/fontSize.js"></script>
     <script type="text/javascript" src="./js/common.js"></script>
-    <script type="text/javascript" src="./js/iSlider.js"></script>
+<!--     <script type="text/javascript" src="./js/iSlider.js"></script>
     <script type="text/javascript" src="./js/iSlider.animate.js"></script>
     <script type="text/javascript" src="./js/iSlider.dot.js"></script>
     <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
-    <script type="text/javascript" src='./layer/layer.js'></script>
+    <script type="text/javascript" src='./layer/layer.js'></script> -->
+    
+    <!-- vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 引入搜索框组件 -->
+    <script src="./vue-componets/search-input/search-input.js"></script>
+    <link href="./vue-componets/search-input/search-input.css" rel="stylesheet">
+
+    <style>
+        #app {
+            width: 100%;
+            padding: .2rem .2rem;
+            background-color: #ef85ab;
+            -webkit-box-sizing: border-box;
+                    box-sizing: border-box;
+        }
+
+        
+    </style>
+
 </head>
 <body>
-    <div class="main">
-        <form action="index.php" method='POST' id="form1">
-            <p><i id="photoup"></i><span>图片上传（多图上传）</span></p>
-             <div class="form_item">
-                <input  id="value" type="hidden" name='pics' value="">
-                <div id="demo">
-                      <div id="as" ></div>
-                </div>
-            </div>
-            <input type='submit' class='button' name='dosubmit' value="提交"/>
-        </form>
+    <div id="app">
+      <todo-item
+        v-bind:reset-placeholder='placeHolder' 
+        v-bind:id-name='idName' 
+        v-on:search-event='searchEvent' 
+      ><todo-item>
     </div>
 </body>
+
 <script>
     $(function () {
-        // XXX
-        !function () {
-            
-        }();
+        // 定义名为 todo-item 的新组件
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                placeHolder: '可以把卖得最火的放进去',
+                idName: 'test-id'
+            },
+            methods: {
+                searchEvent: function (value) {
+                    console.log(value);
+                }
+            }
+        });
 
     });
 </script>

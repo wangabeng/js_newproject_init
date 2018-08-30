@@ -34,6 +34,12 @@
     <script src="https://unpkg.com/better-scroll/dist/bscroll.min.js"></script>
     
     <style>
+        body {
+            width: 100%;
+            height: 100%;
+            background-image: url('./img/test222.jpg');
+            background-size: cover;
+        }
         .wrapper {
             width :100%;
             height: 100%;
@@ -131,6 +137,7 @@
         <li>产品1</li>
         <li>产品1</li>
         <li>产品1</li>
+        <li v-show='loadingShow'>加载中</li>
       </ul>
     </div>
 </body>
@@ -141,15 +148,33 @@
             var app = new Vue({
                 el : '#app',
                 data : {
+                    loadingShow: false
                 },
                 created () {
 
                 },
                 mounted () {
+                    var that = this;
                     var bScroll = new BScroll('.wrapper', {
-
+                        probeType: 1
                     });
-                    console.log(bScroll);
+                    // 滚动时监听事件
+                    bScroll.on('scroll', function (position) {
+                        console.log(position, this.maxScrollY);
+                    });
+                    // 滚动到底监听事件 上拉刷新 数据
+                    bScroll.on('scrollEnd', function (position) {
+                        var _this = this;
+                        if (position.y > (this.maxScrollY - 20)) {
+                            // 加载请求 
+                            that.loadingShow = true;
+                            // _this.refresh();
+                            setTimeout(function () {
+                                that.loadingShow = false;
+                                _this.refresh();
+                            }, 2000);
+                        }
+                    });
                 }
             });
         }();

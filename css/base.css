@@ -1,5 +1,5 @@
 ﻿/* wang css-reset 
-   v1.0.3 | 20180710
+   v1.0.4 | 20180831
    License: none
 */
 
@@ -61,7 +61,7 @@ table {
 }
 img{
     max-width: 100%!important;
-    border: 0;
+    border: 0 none;
     display: block;
 }
 textarea {
@@ -129,4 +129,10 @@ input:-webkit-autofill,
     input:-webkit-autofill:active {
         -webkit-transition-delay: 99999s;
         -webkit-transition: color 99999s ease-out, background-color 99999s ease-out;
+}
+/* 解决苹果移动端input type为button及button颜色透明渐变问题 */
+input[type=button], input[type=submit], input[type=file], button {
+    cursor: pointer;
+    outline: 0px;
+    -webkit-appearance: none;
 }

@@ -39,9 +39,13 @@
     </style>
 </head>
 <body>
-    <div class='rotateContent' id='rotateContent'>123
+    <div id="rotateWrapper">
+        <div class='rotateContent' id='rotateContent'>123
+        </div>
+        <input type="button" class='trigger-btn' value='触发'>
     </div>
-    <input type="button" value='触发'>
+
+    
 </body>
 <script>
     $(function () {
@@ -94,13 +98,35 @@
     // 4 初始化 初始化
     prizeRoatate.prototype.init = function () {
         // 改变了this.opts.doingCallback此函数中的this指向，现在指向了prizeRoatate本身。请注意区别this.opts.doingCallback()——不改变this指向的调用结果
-        this.opts.doingCallback.call(this); // 测试获取结果参数
+        this.opts.doingCallback.call(this); // 测试获取结果参数（不仅执行函数 而且改变this指向 同时发生）
 
     };
 
-    // 5 抽奖业务
-    prizeRoatate.prototype.doRotate = function () {
-        console.log('doRotate');
+    // 5 抽奖业务 在doingCallback回调中执行
+    prizeRoatate.prototype.doRotate = function (deg) {
+        console.log('doRotate', deg);
+        var $rotateEle = $(this.opts.wrapper).find('.rotateContent');
+        var $triggerBtn = $(this.opts.wrapper).find('.trigger-btn');
+        // 执行转动
+        $triggerBtn.on('click', function () {
+            $rotateEle.css({
+                'transform': 'rotate(100deg)'
+            });
+            setTimeout(function () {
+                $rotateEle.css({
+                    'transform': 'rotate(420deg)',
+                    'transition': 'transform cubic-bezier(.24,.84,.68,1) 2s',
+                });
+            }, 0);
+        });
+        // 监听动画完成 webkitTransitionEnd(Safari 3.1 到 6.0 代码) transitionEnd(标准语法)
+        $rotateEle[0].addEventListener('webkitTransitionEnd', function (event) {
+            $rotateEle.css({
+                'transition': 'none',
+                'transform': 'rotate(420deg)'
+            });
+
+        });
     };
 
     // 为了在当前window中使用该构造函数
@@ -109,13 +135,14 @@
 
 // 使用
 var rotater = new prizeRoatate({
-    wrapper: '#rotateContent',
+    wrapper: '#rotateWrapper',
     doingCallback: function () {
+        // 此处的120deg可以在发送ajax请求后在回调中得到 然后执行this.doRotate('120deg')
         console.log('120deg', this); // 如果不改变this的只想 此处的this指向的是此参数对象{wrapper: --, doingCallback}。如果在prizeRoatate的doingCallback调用时改变了this的指向，比如指向了这个new出来的prizeRoatate对象 此时打印出来的this就是该prizeRoatate对象实例.
         // 获取参数 然后再执行抽奖业务 抽奖业务在插件中定义
 
         // 如果在定义构造函数时执行了改变this指向 那么 此处的this就是指的new出来的 prizeRotate对象 这个对象中就有doRotate方法 就可以直接使用。而如果没有改变this的指向，直接使用此方法就会报错
-        this.doRotate();
+        this.doRotate('120deg');
     },
 
 });

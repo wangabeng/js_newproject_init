@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+
+    <title>CSS动画-xxx</title>
+    <link href="./css/awesome.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link href="./css/common.css" rel="stylesheet">
+    <link href="./css/iSlider.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="./js/jquery1.10.2.js"></script>
+    <script type="text/javascript" src="./js/fontSize.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+<!--     <script type="text/javascript" src="./js/iSlider.js"></script>
+    <script type="text/javascript" src="./js/iSlider.animate.js"></script>
+    <script type="text/javascript" src="./js/iSlider.dot.js"></script>
+    <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
+    <script type="text/javascript" src='./layer/layer.js'></script> -->
+    <style>
+        .rotateContent {
+            width: 100px;
+            height: 100px;
+            background-color: gray;
+            margin-top: 1rem;
+            transform: rotate(0deg);
+            transition: transform cubic-bezier(.24,.84,.68,1) 2s;
+        }
+
+        input {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="rotateWrapper">
+        <div class='rotateContent' id='rotateContent'>123
+        </div>
+        <input type="button" class='trigger-btn' value='触发'>
+    </div>
+
+    
+</body>
+<script>
+(function () {
+    // 1 默认配置参数
+    var defaultOpts = {
+        rotateNum: 5, // 转动圈数
+        wrapper: 'body', // 包裹层
+        clickCallback: function () {}, // 点击执行回调 目的是为了传入获取参数
+        endCallback: function () {}, // 结束回调
+    };
+
+    // 构造函数
+    function prizeRoatate (newOpts) {
+        // 覆盖参数
+        this.opts = this.setOpts(newOpts);
+        this.status = false; // 运动状态
+        this.deg = null; // 旋转角度 0-360之间 默认为空
+        // 初始化 绑定事件
+        this.init();
+    }
+
+    // 覆盖参数
+    prizeRoatate.prototype.setOpts = function (newOpts) {
+        return $.extend(true, defaultOpts, newOpts);
+    }
+
+    // 初始化 构造函数执行
+    prizeRoatate.prototype.init = function () {
+        var _this = this;
+        // 绑定事件
+        var $rotateEle = $(this.opts.wrapper).find('.rotateContent');
+        var $triggerBtn = $(this.opts.wrapper).find('.trigger-btn');
+
+        $triggerBtn.on('click', function () {
+            // 去应用层发送ajax请求
+            _this.opts.clickCallback.call(_this); // 改变this指向
+        });
+
+        // 绑定回调
+        this.endRotate();
+
+    };
+
+    // 应用层调用 转动 
+    prizeRoatate.prototype.doRotate = function (deg) {
+        var _this = this;
+        this.status = false; // ture为运动状态 false为静止状态
+        if (this.status) {
+            // 防止上一个点击还没完成 又一次点击
+            return;
+        } else {
+            this.status = true;
+            // 旋转角度 
+            this.deg = deg;
+
+            var realRotateDeg = deg + 360 * _this.opts.rotateNum;
+
+            var $rotateEle = $(this.opts.wrapper).find('.rotateContent');
+            var $triggerBtn = $(this.opts.wrapper).find('.trigger-btn');
+
+            // 执行转动
+            // 默认点击后立即回复初始状态0deg
+            $rotateEle.css({
+                'transform': 'rotate(0deg)'
+            });
+            setTimeout(function () {
+                $rotateEle.css({
+                    'transform': 'rotate(' + realRotateDeg + 'deg)',
+                    'transition': 'transform cubic-bezier(.24,.84,.68,1) 4s',
+                });
+            }, 0);
+        }
+
+    };
+
+    // 转动结束 绑定
+    prizeRoatate.prototype.endRotate = function () {
+        var _this = this;
+        var $rotateEle = $(this.opts.wrapper).find('.rotateContent');
+        // 找到旋转角度
+        var initDeg = parseInt($rotateEle.data('deg'));
+
+        // 结束回调
+        // 监听动画完成 webkitTransitionEnd(Safari 3.1 到 6.0 代码) transitionEnd(标准语法)
+        $rotateEle[0].addEventListener('webkitTransitionEnd', function (event) {
+            $rotateEle.css({
+                'transition': 'none',
+                'transform': 'rotate(' + _this.deg + 'deg)'
+            });
+
+            // 执行动画结束回调 改写this指向 以便在opts对象的callback中使用prizeRoatate的方法
+            _this.opts.endCallback.call(_this, _this.deg);
+
+        });
+    }; 
+
+    // 应用层调用 不转动 不符合条件
+    prizeRoatate.prototype.denyRotate = function (msg) {
+        alert(msg);
+    };
+
+    // 为了在当前window中使用该构造函数
+    window.prizeRoatate = prizeRoatate;
+})(window, document, $);
+
+// 使用
+var rotater = new prizeRoatate({
+    wrapper: '#rotateWrapper',
+    clickCallback: function () {
+        // this指向已经改变 
+        var _this = this;
+        // 模拟发送ajax请求
+        var resData = {};
+        setTimeout(function () {
+            // 模拟ajax回调中执行
+            resData = {
+                resCode: 1, // 1为可以转动 0为需要注册登记手机号
+                deg: 0, // 0-360 为旋转角度
+                msg: '可以'
+            };
+            // resData = {
+            //     resCode: 0, // 1为可以转动 0为需要注册登记手机号
+            //     deg: null, // 0-360 为旋转角度
+            //     msg: '不符合条件'
+            // };
+            if (resData.resCode !== 0) {
+                // 执行旋转
+                _this.doRotate(resData.deg);
+            } else {
+                // 不符合条件
+                 _this.denyRotate(resData.msg);
+            }
+
+        }, 200);
+    },
+    endCallback: function (deg) {
+        // 自定义prize
+        alert('恭喜' + deg);
+    }
+});
+</script>
+</html>

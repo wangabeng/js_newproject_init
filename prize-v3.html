@@ -24,25 +24,43 @@
     <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
     <script type="text/javascript" src='./layer/layer.js'></script> -->
     <style>
+        #rotateWrapper {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+        }
         .rotateContent {
-            width: 100px;
-            height: 100px;
-            background-color: gray;
-            margin-top: 1rem;
+            width: 5rem;
+            height: 5rem;
             transform: rotate(0deg);
             transition: transform cubic-bezier(.24,.84,.68,1) 2s;
+            background-image: url('./img/prize-bg.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-position: center center;
         }
 
-        input {
-            margin-top: 2rem;
+        .trigger-btn {
+            position: absolute;
+            width: 2.5rem;
+            height: 2.5rem;
+            left: center;
+            top: center;
+            z-index: 100;
+            background-image: url('./img/prize-click.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-position: center center;
         }
     </style>
 </head>
 <body>
     <div id="rotateWrapper">
-        <div class='rotateContent' id='rotateContent'>123
-        </div>
-        <input type="button" class='trigger-btn' value='触发'>
+        <div class='rotateContent' id='rotateContent'></div>
+        <div class="trigger-btn"></div>
     </div>
 
     
@@ -163,7 +181,7 @@ var rotater = new prizeRoatate({
             // 模拟ajax回调中执行
             resData = {
                 resCode: 1, // 1为可以转动 0为需要注册登记手机号
-                deg: 0, // 0-360 为旋转角度
+                deg: 120, // 0-360 为旋转角度
                 msg: '可以'
             };
             // resData = {
@@ -182,8 +200,21 @@ var rotater = new prizeRoatate({
         }, 200);
     },
     endCallback: function (deg) {
-        // 自定义prize
-        alert('恭喜' + deg);
+        // 自定义prize 0°对应A  120°对应C 240°对应B
+        alert('恭喜' + getPrizeName(deg));
+        function getPrizeName (deg) {
+            switch (deg) {
+                case 0:
+                    return 'A';
+                    break;
+                case 120:
+                    return 'C';
+                    break;
+                case 240:
+                    return 'B';
+                    break; 
+            }
+        }
     }
 });
 </script>

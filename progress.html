@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+
+    <title>进度条</title>
+    <link href="./css/awesome.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link href="./css/common.css" rel="stylesheet">
+    <link href="./css/iSlider.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="./js/jquery1.10.2.js"></script>
+    <script type="text/javascript" src="./js/fontSize.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+    <script type="text/javascript" src="./js/iSlider.js"></script>
+    <script type="text/javascript" src="./js/iSlider.animate.js"></script>
+    <script type="text/javascript" src="./js/iSlider.dot.js"></script>
+    <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
+    <script type="text/javascript" src='./layer/layer.js'></script>
+    <style id='style-id'>
+ body{
+    font-size:10px;
+}
+
+.container{
+    width: 100%;    
+}
+.line-wrap{
+    width:300px;
+    margin:0 auto;
+}
+.circle-load-rect-svg{
+    margin: 10px;
+}
+
+.g-rect-path{
+    fill: none;
+    stroke-width:10;
+    stroke:#d3dce6;
+    stroke-linejoin:round;
+    stroke-linecap:round;
+}
+
+.g-rect-fill{
+    fill: none;
+    stroke-width:10;
+    stroke:#ff7700;
+    stroke-linejoin:round;
+    stroke-linecap:round;
+    stroke-dasharray: 0, 1370;
+    stroke-dashoffset: 0;
+    animation: lineMove 2s ease-out infinite;
+}
+
+@keyframes lineMove {
+    0%{
+        stroke-dasharray: 0, 1350;
+    }
+    100%{
+        stroke-dasharray: 1350, 1350;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class='progress'>
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" class="circle-load-rect-svg" width="300" height="200" viewbox="0 0 600 400">
+        <polyline points="5 5, 575 5, 575 200, 5 200" class="g-rect-path"/>
+        <polyline points="5 5, 575 5, 575 200, 5 200" class="g-rect-fill"/>
+    </svg>
+    </div>
+</body>
+<script>
+    $(function () {
+        // XXX
+        !function () {
+            console.log($('#style-id')[0].innerHTML);
+        }();
+
+    });
+</script>
+</html>

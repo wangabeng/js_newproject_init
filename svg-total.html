@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+
+    <title>XXX-xxx</title>
+    <link href="./css/awesome.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link href="./css/common.css" rel="stylesheet">
+    <link href="./css/iSlider.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="./js/jquery1.10.2.js"></script>
+    <script type="text/javascript" src="./js/fontSize.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+<!--     <script type="text/javascript" src="./js/iSlider.js"></script>
+    <script type="text/javascript" src="./js/iSlider.animate.js"></script>
+    <script type="text/javascript" src="./js/iSlider.dot.js"></script>
+    <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
+    <script type="text/javascript" src='./layer/layer.js'></script> -->
+    <!-- vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 引入SVG总数统计组件 -->
+    <script src="./vue-componets/svg-total/svg-total.js"></script>
+    <link href="./vue-componets/svg-total/svg-total.css" rel="stylesheet">
+
+    <style>
+
+    </style>
+</head>
+<body>
+    <div id='app'>
+        <svg-total v-bind:area='areaParam' 
+            v-bind:degree='angle'
+        ></svg-total>   
+    </div>
+</body>
+<script>
+    $(function () {
+        // XXX
+        !function () {
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    areaParam: {
+                      width: '2rem',
+                      height: '2rem'  
+                    },
+                    angle: 120
+                },
+                methods: {
+
+                }
+            });
+        }();
+
+    });
+</script>
+</html>

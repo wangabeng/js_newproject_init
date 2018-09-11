@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+
+    <title>XXX-xxx</title>
+    <link href="./css/awesome.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link href="./css/common.css" rel="stylesheet">
+    <link href="./css/iSlider.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="./js/jquery1.10.2.js"></script>
+    <script type="text/javascript" src="./js/fontSize.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+    <!-- <script type="text/javascript" src="./js/iSlider.js"></script>
+    <script type="text/javascript" src="./js/iSlider.animate.js"></script>
+    <script type="text/javascript" src="./js/iSlider.dot.js"></script>
+    <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
+    <script type="text/javascript" src='./layer/layer.js'></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div id='test'>
+        <svg width='600' height='600'  xmlns="http://www.w3.org/2000/svg"   xmlns:xlink="http://www.w3.org/1999/xlink">
+            <circle cx="300" cy="300" r="40" stroke="gray" stroke-width="10"
+ fill="transparent"/>
+                <!-- A 40 40 0 0 1 340 300 -->
+                <!--   rx ry 是否旋转x 角度大于180 1 小于180 0，顺时针1 逆时针0 ，结束坐标值 -->
+              <path v-bind:d="pathString" stroke="red" fill='none' stroke-width="10" />
+              <text x="280" y="300" width='60px' fill="red" style='font-size: 12px;text-align: center;'>百分比{{percent}}</text>
+        </svg>
+
+        <input type="button" value="change" v-on:click='changeV'>
+    </div>
+</body>
+<script>
+    $(function () {
+        // XXX
+        !function () {
+            var app = new Vue({
+                el: '#test',
+                data: {
+                    degree: 60,
+                },
+                computed: {
+                    largeArc: function () {
+                        return this.degree > 180? 1: 0;
+                    },
+                    xSize: function () {
+                        return 300 + 40 * Math.sin(2*3.1415/360*this.degree);
+                    },
+                    ySize: function () {
+                        return 300 - 40 * Math.cos(2*3.1415/360*this.degree);
+                    },
+                    pathString: function () {
+                        return "M 300 260 A 40 40 0 " + this.largeArc + " 1 " + this.xSize + " " + this.ySize;
+                    },
+                    percent: function () {
+                        return (this.degree / 360).toFixed(2);
+                    }
+                },
+                methods: {
+                    changeV: function () {
+                        if (this.degree >= 360) {
+                            this.degree = 0;
+                        }
+                        this.degree += 60;
+                    }
+                }
+
+            });
+        }();
+
+    });
+</script>
+</html>

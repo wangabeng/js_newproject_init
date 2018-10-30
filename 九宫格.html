@@ -8,7 +8,7 @@
     <meta content="telephone=no" name="format-detection">
     <meta content="email=no" name="format-detection">
 
-    <title>XXX-xxx</title>
+    <title>九宫格抽奖-xxx</title>
     <link href="./css/awesome.css" rel="stylesheet">
     <link href="./css/base.css" rel="stylesheet">
     <link href="./css/common.css" rel="stylesheet">
@@ -64,7 +64,7 @@
 </div>
 <script>
     $(function () {
-        // XXX
+        // 抽奖
         !function () {
             var curIndex = -1; // 当前高亮显示的index值
             var $allPrize = $('.each-prize'); // 所有奖项元素
@@ -72,33 +72,44 @@
             var speed = 20;
             var isRoll = false; // 是否在执行抽奖
 
-            var $stopEle = getRandomEle('8'); // 停留的元素上
             var stopIndex; // 停留的元素的index
 
             var timer = null;
 
             // 监听事件
             $('.trigger-btn').on('click', function () {
-                $stopEle = getRandomEle('8'); // 停留的元素上 随机产生
-                stopIndex = parseInt($stopEle.data('index')); // 停留的元素上 随机产生
+                // 如果正在执行抽奖 节流 什么都不做
+                if (isRoll) {
+                    return;
+                }
 
-                // ajax回调
-                setTimeout(function () {
-                    if (!isRoll) {
-                        timer = null;
-                        timer = setInterval(doRoll, speed);                       
-                    } else {
-                        return;
-                    }                    
-                }, 100);
+                // 服务器获取奖品权限 ajax请求
+                if (Math.random() > .5) {
+                    var getPrize = '8';
 
+                    var $stopEle = getRandomEle(getPrize);
+                    stopIndex = parseInt($stopEle.data('index'));
 
-                
-             
+                    doRoll();                         
+                } else {
+                    alert('没有权限');
+                    return;
+                }
             });
 
-            // 定时器执行函数
+            // 定时器节流 防止中途被执行
             function doRoll () {
+                if (!isRoll) {
+                    timer = null;
+                    timer = setInterval(fnInterval, speed);                       
+                } else {
+                    return;
+                }
+            }
+
+
+            // 定时器执行函数
+            function fnInterval () {
                 isRoll = true; // 正在执行抽奖 节流
 
                 var prevIndex = curIndex;
@@ -112,11 +123,11 @@
                 var curActive = $('.each-prize[data-index=' + curIndex % $allPrize.length + ']');
                 curActive.addClass('active');
 
-                // 控制停止 比如奖品为thanks
+                // 控制停止
                 if(curIndex == circle * $allPrize.length + stopIndex) {
-                    isRoll = false; // 回复到起始状态
-                    curIndex = -1;
-                    speed = 20;
+                    isRoll = false; // 恢复到起始状态
+                    curIndex = -1; // 恢复到起始状态
+                    speed = 20; // 恢复到起始状态
 
                     clearInterval(timer);
                     return;
@@ -126,11 +137,10 @@
                 if(curIndex > ($allPrize.length - 2) * circle) {
                     clearInterval(timer);
                     speed *= 1.1;
-                    timer = setInterval(doRoll, speed);
+                    timer = setInterval(fnInterval, speed);
                 }
             } 
 
-            // 从n个相同奖项中随机选取一个 返回这个随机元素的包装对象 getRandomEle('thanks')
             function getRandomEle (prizeName) {
                 var samePrizes = $('.prize-' + prizeName);
                 var length = samePrizes.length;

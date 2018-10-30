@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+
+    <title>加速度-xxx</title>
+    <link href="./css/awesome.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link href="./css/common.css" rel="stylesheet">
+    <link href="./css/iSlider.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="./js/jquery1.10.2.js"></script>
+    <script type="text/javascript" src="./js/fontSize.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+    <script type="text/javascript" src="./js/iSlider.js"></script>
+    <script type="text/javascript" src="./js/iSlider.animate.js"></script>
+    <script type="text/javascript" src="./js/iSlider.dot.js"></script>
+    <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
+    <script type="text/javascript" src='./layer/layer.js'></script>
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  .test {
+    width: 10px;
+    height: 10px;
+    background: red;
+    position: relative;
+    left: 0;
+    top: 0;
+    margin-top: 100px;
+  }
+
+  </style>
+</head>
+<body>
+<div class='test'>
+</div>
+<script>
+/**
+ * 模拟自由落体运动
+  * 取竖直向上为正方向,
+  * v=v0-gt,
+  * x=v0t-1/2* gt^2,
+  * v^2-v0^2=-2gx.
+  * 追问：
+  * 如果取向下为正方向呢？
+  * 追答：
+  * 如果取向下为正方向， v0要取负值， v=v0+gt， x=v0t+1/2* gt^2， v^2-v0^2=2gx。
+**/
+    $(function () {
+        // XXX
+        !function () {
+          window.onload= function () {
+            var $obj = $('.test');
+            var Vx = 40;
+            var Vy0 = -40;
+            var t = .05; // t时间间隔.1s
+            var i = 0; // 计数器
+            var g = 9.8;
+
+            setInterval(function () {
+              $obj.css({"left": Vx * i * t + 'px', 'top':  Vy0 * t * i + g * (t * i) * (t * i) / 2 + 'px'});
+              i++;
+            }, 10);
+          }
+        }();
+
+    });
+</script>    
+</body>
+
+</html>

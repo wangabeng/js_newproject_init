@@ -23,19 +23,187 @@
     <script type="text/javascript" src="./js/iSlider.dot.js"></script>
     <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
     <script type="text/javascript" src='./layer/layer.js'></script>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        }
+        body {
+        background-color: black;
+        /*    background-image: url('./test.jpg');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-position: center center; */
+        }
 
+        input {
+        position: absolute;
+        bottom: 10px;
+        left: 100px;
+        }
+
+        #canvas {
+        }
+    </style>
 </head>
 <body>
+  <div class='wrapper'>
+    <canvas id="canvas"></canvas>
+  </div>
 
-<script>
-    $(function () {
-        // XXX
-        !function () {
-
-        }();
-
-    });
-</script>    
+  <input type="button" id='btn' value='关闭动画'>
 </body>
 
+<script>
+window.onload= function () {
+    var canvas = document.getElementById('canvas');
+    // 设置宽高
+    canvas.width = getPxByRem(6.4);
+    canvas.height = getPxByRem(6.4);
+
+    var ctx = canvas.getContext('2d');
+    var t = .05; // t定时器时间间隔.1s
+
+    // 粒子运动总开关
+    var flag = false;
+
+    var ballArry = [];
+
+    var Ball = function (direction) {
+        // 初始速度
+        this.vx0 =  (direction === 'left') ? (Math.random() * canvas.width * .04 + canvas.width * .02): -(Math.random() * canvas.width * .04 + canvas.width * .02);
+        this.vy0 = 0;
+
+        // 初始坐标
+        var randomPosition = (Math.random() - .5) * canvas.width * .05; //
+        this.initeX = direction === 'left' ? canvas.width * .1 + randomPosition: (canvas.width - canvas.width * .1 - randomPosition); 
+        this.initeY = canvas.width * .1 + randomPosition;
+
+        // 移动距离
+        this.disX = 0; 
+        this.disY = 0;
+
+        // 时间t
+        this.t = 0;
+
+        // 加速度
+        this.speedX = direction === 'left' ? canvas.width * .02: -canvas.width * .02;
+        this.speedY = Math.random() * canvas.width * .02 + canvas.width * .01;
+
+        // 颜色
+        this.color = 'rgba(' + Math.random() * 255 + ',' + Math.random() * 255 + ',' +  Math.random() * 255 + ',' + (Math.random() * .1 + .9) + ')';
+        // 半径
+        this.radius = Math.random() * canvas.width * .02 + canvas.width * .005;
+    }
+
+    // 绘制
+    Ball.prototype.render = function () {
+        // 重绘
+        // start
+        ctx.save();
+
+        ctx.beginPath();
+        // 绘制圆
+        ctx.fillStyle= this.color;
+        ctx.globalCompositeOperation="lighter";
+        ctx.arc(this.disX, this.disY, this.radius, 0, Math.PI*2, true);
+        ctx.fill();
+
+        // close
+        ctx.restore();
+    }
+
+    // 更新 S=V0t+1/2at^2
+    Ball.prototype.update = function () {
+        this.goDie();
+
+        this.t+=t;
+
+        this.disX = this.initeX + this.vx0 * this.t;
+        this.disY = this.initeY + this.vy0 * this.t + this.speedY * Math.pow(this.t, 2) / 2;
+        this.render();
+    }
+
+    // 判断消失
+    Ball.prototype.goDie = function () {
+        // 判断是否出画面
+        if (this.disX >= canvas.height) {
+          ballArry.splice(this, 1);
+          return;
+        }
+    }
+
+    // 生成粒子
+
+    var generateBallTimer = null;
+    // generateBallTimer = setInterval(generateBall, 200);
+
+    function generateBall () {
+        if (!flag) {
+          clearTimeout(generateBall);
+        }
+        ballArry.push(new Ball('left'));
+        ballArry.push(new Ball('right'));
+    }
+
+    var moveTimer = null;
+    // moveTimer = setInterval(moveFn, 20);
+
+    function moveFn () {
+
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+
+        if (!flag) {
+          clearInterval(moveTimer);
+          ballArry = [];
+        }
+
+        for (var i = 0; i < ballArry.length; i++) {
+          console.log('length', ballArry.length);
+          ballArry[i].update();
+        }
+
+    }
+
+    // 监听resize 重新开启动画
+    function resizeBegain () {
+        ballArry = [];
+        generateBallTimer = null;
+        generateBallTimer = setInterval(generateBall, 120);
+
+        // moveTimer = null;
+        moveTimer = setInterval(moveFn, 20);
+    }
+
+    // 关闭动画清楚屏幕
+    function clearStop () {
+        ballArry = [];
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        clearInterval(generateBall);
+
+        clearInterval(moveTimer);
+        
+    }
+
+    // 监听开启及关闭
+    document.getElementById('btn').onclick = function () {
+        if (!flag) { // 打开
+            flag = true;
+            resizeBegain();
+        } else { // 关闭
+            flag = false;
+            clearStop();
+        }
+        
+    };
+
+    // 工具集
+    // 实时获取1rem单位的px值 rem转像素$.(6.4) 输入出375
+    function getPxByRem (remSize) {  
+        var deviceWidth = document.body && document.body.clientWidth || document.getElementsByTagName("html")[0].offsetWidth;
+        return remSize * (deviceWidth * 200 / 1280);
+    }
+
+}
+</script>
 </html>

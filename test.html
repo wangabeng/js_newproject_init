@@ -26,12 +26,17 @@
 
 </head>
 <body>
-
+    <img class='imgtest' src='https://www.planwallpaper.com/static/images/violet-vector-leaves-circles-backgrounds-for-powerpoint_PdfkI4q.jpg'>
 <script>
     $(function () {
         // XXX
         !function () {
-
+            var picEle = document.querySelector(".imgtest");
+            console.log(picEle.height);
+            picEle.onload = function () {
+                console.log(picEle.height);
+                console.log(picEle.offsetHeight);
+            }
         }();
 
     });

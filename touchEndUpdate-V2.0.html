@@ -99,7 +99,7 @@
         !function () {
             var loadingEle = document.getElementById("loading-txt");
             var ulContent = document.querySelector('.content_wrapper');
-            var isLoading = false; // 节流
+            var isLoading = false; // 只有为false 才可以执行刷新
             window.addEventListener('touchmove', function () {
                 var curScrollTop = getScrollTop();
                 var clientHeight = getClientHeight();
@@ -111,7 +111,7 @@
                     // ajax 成功后追加dom 然后执行isLoading = false loadingEle.style.display = 'none'
                     clearTimeout(timerAjax);
                     var timerAjax = setTimeout(function () {
-                        isLoading = false; // 当第一次上拉 值变为true 再次快速上拉 isLoading因为是true 不执行if内语句 起到节流作用
+                        isLoading = false;
                         loadingEle.style.display = 'none';
 
                         var node=document.createElement("li");

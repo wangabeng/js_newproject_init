@@ -91,28 +91,27 @@
             <li>1</li>
             <li>21</li>
         </ul>
-        <p style="display: none" id='loading-txt'>加载中</p>
+        <p style="display: none;width: 100%;text-align: center;" id='loading-txt'><img style='width:2rem;height:.5rem;display: inline-block;' src="./img/loading.svg" alt=""></p>
     </div>
 <script>
     $(function () {
-        // XXX
+        // 上拉刷新
         !function () {
             var loadingEle = document.getElementById("loading-txt");
             var ulContent = document.querySelector('.content_wrapper');
-            var isLoading = false; // 节流
+            var isLoading = false; // 只有为false 才可以执行刷新
             window.addEventListener('touchmove', function () {
                 var curScrollTop = getScrollTop();
                 var clientHeight = getClientHeight();
                 var totalHeight = getScrollHeight();
                 if (curScrollTop + clientHeight == totalHeight && isLoading == false) {
                     isLoading = true;
-                    console.log('addddd');
                     loadingEle.style.display = 'block';
 
                     // ajax 成功后追加dom 然后执行isLoading = false loadingEle.style.display = 'none'
                     clearTimeout(timerAjax);
                     var timerAjax = setTimeout(function () {
-                        isLoading = false; // 当第一次上拉 值变为true 再次快速上拉 isLoading因为是true 不执行if内语句 起到节流作用
+                        isLoading = false;
                         loadingEle.style.display = 'none';
 
                         var node=document.createElement("li");
@@ -152,7 +151,7 @@
                 return clientHeight; 
             }
 
-            // 获取文档完整的高度 （可用于下拉刷新）
+            // 获取文档完整的高度
             function getScrollHeight() { 
                 return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight); 
             }

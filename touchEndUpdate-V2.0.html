@@ -104,7 +104,9 @@
                 var curScrollTop = getScrollTop();
                 var clientHeight = getClientHeight();
                 var totalHeight = getScrollHeight();
-                if (curScrollTop + clientHeight == totalHeight && isLoading == false) {
+                console.log(curScrollTop, clientHeight, totalHeight);
+                if (curScrollTop + clientHeight + $.getPxByRem(.5) >= totalHeight && isLoading == false) {
+                    console.log("提前加载");
                     isLoading = true;
                     loadingEle.style.display = 'block';
 

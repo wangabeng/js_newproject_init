@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+
+    <title>XXX-xxx</title>
+    <link href="./css/awesome.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link href="./css/common.css" rel="stylesheet">
+    <link href="./css/iSlider.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="./js/jquery1.10.2.js"></script>
+    <script type="text/javascript" src="./js/fontSize.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+    <script type="text/javascript" src="./js/iSlider.js"></script>
+    <script type="text/javascript" src="./js/iSlider.animate.js"></script>
+    <script type="text/javascript" src="./js/iSlider.dot.js"></script>
+    <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
+    <script type="text/javascript" src='./layer/layer.js'></script>
+    <style>
+        body.fixed-body {
+            z-index: 100;
+            position: fixed;
+            left: 50%;
+            margin-left: -3.2rem;
+        }
+        /*蒙尘*/
+        .mask {
+            width: 100%;
+            height: 100%;
+            background: rgb(0,0,0);
+            z-index: 99;
+            position: fixed;
+            left: 0;
+            top: 0;
+            opacity: .5;
+        }
+        /*弹窗*/
+        .alert-win {
+            width: 3rem;
+            height: 3rem;
+            border: 1px solid red;
+            box-sizing: border-box;
+            left: 50%;
+            top: 2%;
+            margin-left: -1.5rem;
+            background: red;
+            position: absolute;
+            z-index: 102;
+        }
+    </style>
+</head>
+<body class='fixed-body'>
+    <!-- 弹窗 -->
+    <div class="alert-win">
+        <img class='imgtest' src='http://pic31.nipic.com/20130804/7487939_090818211000_2.jpg'>
+    </div>
+    <br>1<br><br><br><br><br><br><br><br>3<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>4<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>5<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>7<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <!-- 蒙层 -->
+    <div class="mask"></div>
+<script>
+    $(function () {
+        // XXX
+        !function () {
+            var picEle = document.querySelector(".imgtest");
+            console.log(picEle.height);
+            picEle.onload = function () {
+                console.log(picEle.height);
+                console.log(picEle.offsetHeight);
+            }
+        }();
+
+    });
+</script>    
+</body>
+
+</html>

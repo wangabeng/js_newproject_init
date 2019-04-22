@@ -42,7 +42,7 @@
             opacity: .5;
         } */
         /*弹窗*/
-        .alert-win {
+        /*.alert-win {
             width: 3rem;
             height: 3rem;
             border: 1px solid red;
@@ -53,14 +53,14 @@
             background: red;
             position: absolute;
             z-index: 102;
-        }
+        }*/
     </style>
 </head>
 <body class='fixed-body'>
     <!-- 弹窗 -->
-    <div class="alert-win">
+    <!-- <div class="alert-win">
         <img class='imgtest' src='http://pic31.nipic.com/20130804/7487939_090818211000_2.jpg'>
-    </div>
+    </div> -->
     <br>1<br><br><br><br><br><br><br><br>3<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>4<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>5<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>7<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <!-- 蒙层 -->
     <!-- <div class="mask"></div> -->
@@ -75,11 +75,13 @@
                 layerWidth: '2rem', // 默认弹窗宽度 2rem
                 layerHeight: '4rem', // 默认弹窗高度 2rem
                 layerWin: `
-                    <p>babdbdbdd</p>
+                    <p class='alert-win'>babdbdbdd</p>
                 `
 
             };
-            // console.log(this);
+
+            // 当前是否有弹出层 默认为null
+            this.curShowLayer = null; 
 
             // 覆盖参数
             this.overrideParam(options);
@@ -95,11 +97,14 @@
 
         // 2 初始化弹出层 z-index 10000以上
         BLayer.prototype.initBLayer  = function () {
+            var _this = this;
+
             // 给body添加蒙层 同时设置body为fixed
             var bodyDom = document.querySelector(this.defaultOps.mountBody);
 
             console.log(bodyDom);
 
+            // 改变body的样式 使其成为固定定位
             bodyDom.style.position = "fixed";
             bodyDom.style.left = "50%";
             bodyDom.style.zIndex = "100";
@@ -119,6 +124,26 @@
                 opacity: .5;
             `;
             bodyDom.appendChild(eleMask);
+
+            // 弹出层
+            var layerDom = document.createElement("div");
+            layerDom.className = 'alert-win';
+            layerDom.innerHTML = this.defaultOps.layerWin;
+            bodyDom.appendChild(layerDom);
+            // 设置弹出层样式
+            layerDom.style.width = this.defaultOps.layerWidth;
+            layerDom.style.height = this.defaultOps.layerHeight;
+            layerDom.style.position = "absolute";
+            layerDom.style.zIndex = "100000";
+            layerDom.style.backgroundColor = "#fff";
+            layerDom.style.left = "50%";
+            layerDom.style.top = "1rem";
+            // 分离单位 例如22rem "0.25rem".match(/\b[.%\d]+/g)
+            var widthQty = this.defaultOps.layerWidth.match(/\b[.%\d]+/g)[0];
+            widthQty = parseFloat(widthQty);
+            var widthUnit = this.defaultOps.layerWidth.match(/[a-zA-Z\b]+/g)[0];
+            layerDom.style.marginLeft = -widthQty/2 + widthUnit;
+
         };
 
 
@@ -126,7 +151,7 @@
         !function () {
             new BLayer({
                 a: 5,
-                layerWidth: '2rem',
+                layerWidth: '6rem',
                 layerHeight: '4rem',
                 // layerWin: ``, // 弹窗内容 html内容
             });

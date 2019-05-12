@@ -31,7 +31,7 @@
   <div class="options-wrapper">
       <span class='option-selected'>请选择</span>
       <i class="fa fa-caret-down" aria-hidden="true"></i>
-      <ul>
+      <ul style='display: none'>
           <li>选项A</li>
           <li>选项B</li>
           <li>选项C</li>
@@ -41,7 +41,7 @@
   <div class="options-wrapper">
       <span class='option-selected'>请选择</span>
       <i class="fa fa-caret-down" aria-hidden="true"></i>
-      <ul>
+      <ul style='display: none'>
           <li>选项C</li>
           <li>选项D</li>
           <li>选项E</li>
@@ -119,7 +119,6 @@
     addIdentify: function () {
       var _this = this;
       _this.optionsWrapper.data("identy", _this.randomData);
-      console.log(_this.optionsWrapper.data("identy"));
     }
   };
   // 3 扩展jquery

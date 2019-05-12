@@ -37,6 +37,16 @@
           <li>选项C</li>
       </ul>
   </div>
+
+  <div class="options-wrapper">
+      <span class='option-selected'>请选择</span>
+      <i class="fa fa-caret-down" aria-hidden="true"></i>
+      <ul>
+          <li>选项C</li>
+          <li>选项D</li>
+          <li>选项E</li>
+      </ul>
+  </div>
 </body>
 <script>
         // 选择列表
@@ -61,6 +71,8 @@
   var DefineOptions = function (el, callback) {
     this.el = el;
     this.optionsWrapper = el.find('ul');
+    this.randomData = "" + parseInt(Math.random().toFixed(6) * 1.0E+6);
+    this.addIdentify();
     this.toggleOptions();
     this.bodyEvent();
     this.selectEvent();
@@ -74,7 +86,16 @@
       this.el.on('click', function (event) {
         event.stopPropagation();
         _this.optionsWrapper.toggle();
+
+        // 隐藏其他的ul
+        $('.options-wrapper ul').each(function (index, ele) {
+          if ($(ele).data("identy") != _this.randomData) {
+            $(ele).hide();
+          }
+        });
+
       });
+
     },
     // 选择列表
     selectEvent: function () {
@@ -93,6 +114,12 @@
       $('body').on('click', function () {
         _this.optionsWrapper.hide();
       });
+    },
+    // 为当前弹出选项列表ul添加唯一标识
+    addIdentify: function () {
+      var _this = this;
+      _this.optionsWrapper.data("identy", _this.randomData);
+      console.log(_this.optionsWrapper.data("identy"));
     }
   };
   // 3 扩展jquery

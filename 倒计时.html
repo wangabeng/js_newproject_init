@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+
+    <title>XXX-xxx</title>
+    <link href="./css/awesome.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link href="./css/common.css" rel="stylesheet">
+    <link href="./css/iSlider.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="./js/jquery1.10.2.js"></script>
+    <script type="text/javascript" src="./js/fontSize.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+    <script type="text/javascript" src="./js/iSlider.js"></script>
+    <script type="text/javascript" src="./js/iSlider.animate.js"></script>
+    <script type="text/javascript" src="./js/iSlider.dot.js"></script>
+    <script type="text/javascript" src="./js/iSlider.plugin.button.js"></script>
+    <script type="text/javascript" src='./layer/layer.js'></script>
+
+</head>
+<body>
+    <p>
+        <span class='dates'></span>
+        <span class='hours'></span>
+        <span class='minutes'></span>
+        <span class='seconds'></span>
+    </p>
+<script>
+    $(function () {
+        // XXX
+        !function () {
+            countDown({
+                year: 2019,
+                month: 4,
+                date: 27,
+                hour: 0,
+                minutes: 0,
+                seconds: 0
+            });
+        }();
+        // 倒计时 自动切换显示倒计时或播放器
+        function countDown (startJson) {
+            var days, preDays, hours, preHours, minutes, preMinutes, seconds, preSeconds;
+            var daysDom = $('.dates'), hoursDom = $('.hours'), minutesDom = $('.minutes'), secondsDom = $('.seconds');
+            // 初始化倒计时
+            fnInterval();
+
+            clearInterval(timer);
+            var timer = setInterval(fnInterval, 1000);
+
+            function fnInterval () {
+                var startTime = new Date(startJson.year, startJson.month-1, startJson.date, startJson.hour, startJson.minutes, startJson.seconds);
+                var nowTime = new Date();
+                var leftTime = startTime - nowTime;
+                leftTime = leftTime < 0 ? 0: leftTime;
+
+                if (leftTime === 0) {
+                    clearInterval(timer);
+                    // 隐藏倒计时 显示播放页面
+                    $('.count-down-wrapper').hide();
+                    $('.video-wrapper').show();
+                    return;
+                }
+
+                days = addZero(parseInt(leftTime / 1000 / 60 / 60 / 24 , 10)); // 剩余的天数 
+                hours = addZero(parseInt(leftTime / 1000 / 60 / 60 % 24 , 10)); // 剩余的小时 
+                minutes = addZero(parseInt(leftTime / 1000 / 60 % 60, 10)); // 剩余的分钟 
+                seconds = addZero(parseInt(leftTime / 1000 % 60, 10)); // 剩余的秒数
+
+                // 改变倒计时值
+                if (days !== preDays) {
+                    daysDom.html(days);
+                }
+                if (hours !== preHours) {
+                    hoursDom.html(hours);
+                }
+                if (minutes !== preMinutes) {
+                    minutesDom.html(minutes);
+                }
+                secondsDom.html(seconds);
+                
+                // 记录这次的值
+                preDays = days;
+                preHours = hours;
+                preMinutes = minutes;
+                preSeconds = seconds;
+            }
+
+            // 将0-9的数字前面加上0 例如1变为01
+            function addZero(i){  
+              return i < 10 ? "0" + i: i;
+            } 
+            
+        };
+    });
+</script>    
+</body>
+
+</html>

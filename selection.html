@@ -49,22 +49,6 @@
   </div>
 </body>
 <script>
-        // 选择列表
-        // !function () {
-        //     $('.options-wrapper').on('click', function (event) {
-        //         event.stopPropagation();
-        //         $('.options-wrapper ul').toggle();
-        //     });
-
-        //     $('.options-wrapper ul').find('li').on('click', function () {
-        //         var value = $(this).html();
-        //         $('.options-wrapper .option-selected').html(value);
-        //     });
-
-        //     $('body').on('click', function () {
-        //         $('.options-wrapper ul').hide();
-        //     });
-        // }();
 
 !function ($) {
   // 1 定义构造函数
@@ -133,12 +117,9 @@
 
 }(jQuery);
 
-// $('.options-wrapper').defineOptions(function (a) {
-//   //
-//   // console.log('callback', a);
-//   alert(a);
-// });
-$('.options-wrapper').defineOptions();
+$('.options-wrapper').defineOptions(function (a) {
+  console.log(a);
+});
 
 </script>
 </html>

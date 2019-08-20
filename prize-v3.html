@@ -77,7 +77,7 @@
         // 覆盖参数
         this.opts = this.setOpts(newOpts);
         this.status = false; // 运动状态
-        this.deg = null; // 旋转角度 0-360之间 默认为空
+        this.resData = null, // 奖品json
         // 初始化 绑定事件
         this.init();
     }
@@ -105,7 +105,7 @@
     };
 
     // 应用层调用 转动 
-    prizeRoatate.prototype.doRotate = function (deg) {
+    prizeRoatate.prototype.doRotate = function (resData) {
         var _this = this;
         this.status = false; // ture为运动状态 false为静止状态
         if (this.status) {
@@ -114,9 +114,9 @@
         } else {
             this.status = true;
             // 旋转角度 
-            this.deg = deg;
+            this.resData = resData;
 
-            var realRotateDeg = deg + 360 * _this.opts.rotateNum;
+            var realRotateDeg = resData.deg + 360 * _this.opts.rotateNum;
 
             var $rotateEle = $(this.opts.wrapper).find('.rotateContent');
             var $triggerBtn = $(this.opts.wrapper).find('.trigger-btn');
@@ -148,11 +148,11 @@
         $rotateEle[0].addEventListener('webkitTransitionEnd', function (event) {
             $rotateEle.css({
                 'transition': 'none',
-                'transform': 'rotate(' + _this.deg + 'deg)'
+                'transform': 'rotate(' + _this.resData.deg + 'deg)'
             });
 
             // 执行动画结束回调 改写this指向 以便在opts对象的callback中使用prizeRoatate的方法
-            _this.opts.endCallback.call(_this, _this.deg);
+            _this.opts.endCallback.call(_this, _this.resData);
 
         });
     }; 
@@ -181,14 +181,9 @@ var rotater = new prizeRoatate({
                 deg: 120, // 0-360 为旋转角度
                 msg: '可以'
             };
-            // resData = {
-            //     resCode: 0, // 1为可以转动 0为需要注册登记手机号
-            //     deg: null, // 0-360 为旋转角度
-            //     msg: '不符合条件'
-            // };
             if (resData.resCode == 1) {
                 // 执行旋转
-                _this.doRotate(resData.deg);
+                _this.doRotate(resData);
             } else {
                 // 不符合条件
                  _this.denyRotate(resData.msg);
@@ -196,22 +191,9 @@ var rotater = new prizeRoatate({
 
         }, 200);
     },
-    endCallback: function (deg) {
+    endCallback: function (resData) {
         // 自定义prize 0°对应A  120°对应C 240°对应B
-        alert('恭喜' + getPrizeName(deg));
-        function getPrizeName (deg) {
-            switch (deg) {
-                case 0:
-                    return 'A';
-                    break;
-                case 120:
-                    return 'C';
-                    break;
-                case 240:
-                    return 'B';
-                    break; 
-            }
-        }
+        alert('恭喜' + resData.msg);
     }
 });
 </script>

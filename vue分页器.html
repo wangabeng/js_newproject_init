@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+  <style>
+    .cur {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+ <div id="app">
+    <ul>
+      <li v-for='item in genArr' @click='tabPage(item)' :class="{'cur': parseInt(item)==curPage}">{{item}}</li>
+    </ul>
+ </div>
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello Vue!',
+      pageoption: {
+        ENDN: 2,
+        MIDN: 3,
+        LIMIT: 10
+      },
+      //totalPage: 8, // 总页数 动态获取 假设
+      //curPage: 6, // 当前页 动态获取 假设
+      frontArr: [], // 最前部分
+      midArr: [], // 中间部分
+      endArr: [], // 最后部分
+
+      genArr: [], // 生成的页码数组
+    },
+    props: {
+      totalPage: {
+        type: Number,
+        default: 20
+      },
+      curPage: {
+        type: Number,
+        default: 10
+      },
+    },
+    mounted () {
+      this.genPage(this.curPage);
+    },
+    methods: {
+      // 生成1个新的数组
+      genPage: function (newPage) {
+        var _this = this;
+        this.curPage = newPage;
+
+        // 初始化为空
+        this.frontArr = [];
+        var beforeMid = [];
+        this.midArr = [];
+        var afterMid = [];
+        this.endArr = [];
+        this.genArr = [];
+
+        // 1 如果总页数小于等于LIMIT 10 则全部显示
+        if (this.totalPage <= this.pageoption.LIMIT) {
+          for (var i = 1; i <= this.totalPage; i++) {
+            this.genArr.push(i);
+          }
+          console.log("genArr是");
+          console.log(this.genArr);
+          return;
+        }
+        // 2 如果总页数大于10 则分3部分显示 再看情况增加省略号. 以总页数为20举例
+        // frontArr[1,2]  mid[curPage-1,curPage, curPage+1] endArr[totalPage-1, totalPage]
+        // 开头
+        for (var i = 1; i <= this.pageoption.ENDN; i++) {
+          this.frontArr.push(i);
+        }
+        // 结尾
+        for (var i = this.totalPage; i > (this.totalPage - this.pageoption.ENDN); i--) {
+          this.endArr.unshift(i);
+        }
+        // 中间的数组(按3个来 初始化)
+        this.midArr = [this.curPage-1, this.curPage, this.curPage + 1];
+
+        // 计算中间段和首端的冲突情况
+        // 1 2 ->  0 1 2    1 2 3   2 3 4   3 4 5 
+        if ( (this.curPage-1) - (this.frontArr[this.pageoption.ENDN - 1]) <= 1 ) {
+          this.midArr = [3, 4, 5];
+        // 1 2  ->    4 5 6
+        } else if ( (this.curPage-1) - (this.frontArr[this.pageoption.ENDN - 1]) == 2 ) {
+          this.midArr = [3, 4, 5, 6];
+        } else {
+          beforeMid = ['...'];
+        }
+
+
+        // 计算中间段和末端的冲突情况  16 17 18  -> 19 20    17 18 19 -> 19 20    18 19 20 -> 19 20
+        if (this.endArr[0] - (this.midArr[this.pageoption.ENDN - 1]) <= 1) {
+          this.midArr = [this.endArr[0] - 3, this.endArr[0] - 2, this.endArr[0] - 1];
+        } else if ( (this.endArr[0] - (this.midArr[this.pageoption.ENDN - 1]) == 2) ) {
+          this.midArr = [this.endArr[0] - 4, this.endArr[0] - 3, this.endArr[0] - 2, this.endArr[0] - 1];
+        } else {
+          // this.midArr.push('.');
+          afterMid = ['...'];
+        }
+        
+        this.genArr = this.frontArr.concat(beforeMid, this.midArr, afterMid, this.endArr);
+
+        console.log("genArr是");
+        console.log(this.genArr);
+      },
+      tabPage: function (item) {
+        if (item!=="...") {
+          console.log(typeof parseInt(item));
+          this.genPage(parseInt(item));
+        }
+        
+      }
+    }
+  })
+</script>  
+</body>
+</html>
